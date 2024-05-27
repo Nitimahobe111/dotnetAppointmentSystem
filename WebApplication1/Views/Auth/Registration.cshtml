@@ -1,0 +1,29 @@
+﻿@model WebApplication1.Models.PatientModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Person Details</title>
+</head>
+<body>
+    <div>
+        <h2>Person Details</h2>
+        <dl class="row">
+            <dt class="col-sm-2">First Name</dt>
+            <dd class="col-sm-10">@Model.FirstName</dd>
+
+            <dt class="col-sm-2">Last Name</dt>
+            <dd class="col-sm-10">@Model.LastName</dd>
+
+            <dt class="col-sm-2">Email</dt>
+            <dd class="col-sm-10">@Model.Gender</dd>
+
+            <dt class="col-sm-2">Phone Number</dt>
+            <dd class="col-sm-10">@Model.PhoneNumber</dd>
+
+            <dt class="col-sm-2">Address</dt>
+            <dd class="col-sm-10">@Model.PhoneNumber</dd>
+        </dl>
+    </div>
+</body>
+</html>

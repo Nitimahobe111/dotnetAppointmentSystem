@@ -1,0 +1,95 @@
+﻿@model WebApplication1.Models.PatientModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Details</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="content">
+        <!-- This is where the patient details view will be loaded -->
+    </div>
+    <h1>Patient Details</h1>
+    <table>
+        <tr>
+            <button type="button" onclick="callApi1('@Model.Id')">Create Appointment</button>
+            <button type="button" onclick="callApi2('@Model.Id')"> Edit Patient's details '</button>
+           
+        </tr>
+        <tr>
+            <th>Last Name:</th>
+            <td>@Model.LastName</td>
+        </tr>
+        <tr>
+            <th>Country Code:</th>
+            <td>@Model.CountryCode</td>
+        </tr>
+        <tr>
+            <th>Phone Number:</th>
+            <td>@Model.PhoneNumber</td>
+        </tr>
+        <tr>
+            <th>Date of Birth:</th>
+            <td>@Model.DateOfBirth.ToShortDateString()</td>
+        </tr>
+        <tr>
+            <th>Description:</th>
+            <td>@Model.Description</td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td>@Model.Email</td>
+        </tr>
+        <tr>
+            <th>Profile Picture:</th>
+            <td><img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ProfilePicture)" alt="Profile Picture"></td>
+        </tr>
+        
+    
+    </table>
+    
+    <script>
+        var bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJuaXRpbm1haG9iZTExMUBnbWFpbC5jb20iLCJqdGkiOiIwZWZhZjdjNi03M2RkLTQ0MjUtYWRmNC1hYWVlNzg5ODU3MGQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImlkIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoicGF0aWVudCIsImV4cCI6MTcxNjU2MjEyNywiaXNzIjoiWW91cklzc3VlciIsImF1ZCI6IllvdXJBdWRpZW5jZSJ9.8xqk9KDHQaA0av0Qv6RTxQzK4Yu3_5ze7gB4Wv82U94";
+        function callApi1(patientId) {
+            $.ajax({
+                url: '/createappointment/' + patientId,
+                type: 'get',
+                headers: {
+                    'Authorization': 'Bearer ' + bearerToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                success: function (response) {
+                    $('#content').html(response);
+                },
+                error: function (error) {
+                    alert('Error calling API 1 for patient ' + bearerToken);
+                }
+            });
+
+        }
+
+        function callApi2(patientId) {
+            $.ajax({
+                url: '/updatepatientdetails/' + patientId,
+                type: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + bearerToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                success: function (response) {
+                    alert('Patient Status update for ' + patientId);
+                },
+                error: function (error) {
+                    alert('Error updating status for patient ' + patientId);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

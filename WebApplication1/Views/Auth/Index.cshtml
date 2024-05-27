@@ -1,0 +1,67 @@
+﻿@model IEnumerable<WebApplication1.Models.AppointmentModel>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h2>Appointments</h2>
+    @foreach (var appointment in Model)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Patient Id</th>
+                    <th>StartTime</th>
+                    <th>EndTime</th>
+                    <th>AppointmentStatus</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var appointmentModel in Model)
+                {
+                    <tr>
+                        <td>@appointmentModel.PatientId</td>
+                        <td>@appointmentModel.StartTime</td>
+                        <td>@appointmentModel.EndTime</td>
+                        <td>@appointmentModel.AppointmentStatus</td>
+
+
+                        <td>
+                            <button type="button" onclick="callApi1('@appointmentModel.Id')">Edit</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <script>
+            var bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkb2N0b3JAZGVtby5jb20iLCJqdGkiOiIwYjhkMjQxYS1mMTI2LTQ4NTYtOWNkOS1hM2I1MzUyYjNmNDQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImlkIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiZG9jdG9yIiwiZXhwIjoxNzE2NTIxNDk1LCJpc3MiOiJZb3VySXNzdWVyIiwiYXVkIjoiWW91ckF1ZGllbmNlIn0.Vbp1ETPUkHCliAVc60-UoPkiPtKFvwAWyilP-VTsyD8";
+            function callApi1(patientId)
+            {
+                $.ajax({
+                    url: '/getpatientdetails/' + patientId,
+                    type: 'get',
+                    headers: {
+                        'Authorization': 'Bearer ' + bearerToken,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    success: function (response) {
+                        $('#content').html(response);
+                    },
+                    error: function (error) {
+                        alert('Error calling API 1 for patient ' + bearerToken);
+                    }
+                });
+
+            }
+    
+            </script>
+            }
+
+</body>
+</html>

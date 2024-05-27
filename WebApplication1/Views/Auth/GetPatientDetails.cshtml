@@ -1,0 +1,50 @@
+﻿@model WebApplication1.Models.PatientModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Details</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Patient </h1>
+    <table>
+        <tr>
+            <th>First Name:</th>
+            <td>@Model.FirstName</td>
+        </tr>
+        <tr>
+            <th>Last Name:</th>
+            <td>@Model.LastName</td>
+        </tr>
+        <tr>
+            <th>Country Code:</th>
+            <td>@Model.CountryCode</td>
+        </tr>
+        <tr>
+            <th>Phone Number:</th>
+            <td>@Model.PhoneNumber</td>
+        </tr>
+        <tr>
+            <th>Date of Birth:</th>
+            <td>@Model.DateOfBirth.ToShortDateString()</td>
+        </tr>
+        <tr>
+            <th>Description:</th>
+            <td>@Model.Description</td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td>@Model.Email</td>
+        </tr>
+        <tr>
+            <th>Profile Picture:</th>
+            <td><img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ProfilePicture)" alt="Profile Picture"></td>
+        </tr>
+    </table>
+
+   
+</body>
+</html>

@@ -1,0 +1,62 @@
+﻿@model WebApplication1.Models.AppointmentModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upate Appointment</title>
+</head>
+<body>
+    <h2>Upate Appointment</h2>
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+       
+        <div>
+            <label asp-for="StartTime"></label>
+            <input asp-for="StartTime" type="datetime-local" />
+            <span asp-validation-for="StartTime" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="EndTime"></label>
+            <input asp-for="EndTime" type="datetime-local" />
+            <span asp-validation-for="EndTime" class="text-danger"></span>
+        </div>
+       
+        <div>
+            <button type="button" onclick="callApi1($('#PatientId').val())">Submit</button>
+        </div>
+    </form>
+    <script>
+        var bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkb2N0b3JAZGVtby5jb20iLCJqdGkiOiIwYjhkMjQxYS1mMTI2LTQ4NTYtOWNkOS1hM2I1MzUyYjNmNDQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImlkIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiZG9jdG9yIiwiZXhwIjoxNzE2NTIxNDk1LCJpc3MiOiJZb3VySXNzdWVyIiwiYXVkIjoiWW91ckF1ZGllbmNlIn0.Vbp1ETPUkHCliAVc60-UoPkiPtKFvwAWyilP-VTsyD8";
+        function callApi1(patientId) {
+            var formData = {
+                Id: $('#appointmentForm input[name="PatientId"]').val(),
+                StartTime: $('#appointmentForm input[name="StartTime"]').val(),
+                AppointmentStatus: $('#appointmentForm input[name="AppointmentStatus"]').val()
+            };
+            $.ajax({
+                url: '/createappointment/,
+                        type: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + bearerToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }data: JSON.stringify(formData),
+                success: function (response) {
+                    $('#content').html(response);
+                },
+                error: function (error) {
+                    alert('Error calling API 1 for patient');
+                }
+
+            });
+
+        }
+    </script>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.1/jquery.validate.min.js"></script>
+</body>
+</html>

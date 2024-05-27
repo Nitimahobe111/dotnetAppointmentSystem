@@ -1,0 +1,84 @@
+﻿ @model IEnumerable<WebApplication1.Models.PatientModel>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <form id="antiForgeryForm">
+        @Html.AntiForgeryToken()
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patient in Model)
+            {
+                <tr>
+                    <td>@patient.FirstName</td>
+                    <td>@patient.LastName</td>
+                    <td>@patient.IsActive</td>
+
+                    <td>
+                        <button type="button" onclick="callApi1('@patient.Id')">View Patient Details</button>
+                        <button type="button" onclick="callApi2('@patient.Id')">Block/Unblock patient</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id="content">
+        <!-- This is where the patient details view will be loaded -->
+    </div>
+
+    <script>
+        var bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkb2N0b3JAZGVtby5jb20iLCJqdGkiOiIwYjhkMjQxYS1mMTI2LTQ4NTYtOWNkOS1hM2I1MzUyYjNmNDQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImlkIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiZG9jdG9yIiwiZXhwIjoxNzE2NTIxNDk1LCJpc3MiOiJZb3VySXNzdWVyIiwiYXVkIjoiWW91ckF1ZGllbmNlIn0.Vbp1ETPUkHCliAVc60-UoPkiPtKFvwAWyilP-VTsyD8";
+        function callApi1(patientId) {
+            $.ajax({
+                url: '/getpatientdetails/' + patientId,
+                type: 'get',
+                headers: {
+                    'Authorization': 'Bearer ' + bearerToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                success: function (response) {
+                    $('#content').html(response);
+                },
+                error: function (error) {
+                    alert('Error calling API 1 for patient ' + bearerToken);
+                }
+            });
+           
+        }
+
+        function callApi2(patientId) {
+            $.ajax({
+                url: '/changepatientstatus/' + patientId,
+                type: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + bearerToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                success: function (response) {
+                    alert('Patient Status update for ' + patientId);
+                },
+                error: function (error) {
+                    alert('Error updating status for patient ' + patientId);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
